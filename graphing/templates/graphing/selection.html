@@ -1,0 +1,22 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+<h1>Make your choice {{user.user}}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if menu_list %}
+
+	    {% for menu_item in menu_list %}
+    	<form action="{% url 'polls:update_pref' user.id %}" method="POST">
+    	{% csrf_token %}
+	         <input type="radio" name="menu_item_id" id="menu_item{{ forloop.counter }}" value="{{ menu_item.id }}" />
+	    <label for="choice{{ forloop.counter }}">{{ menu_item.menu_item_text }}</label><br />
+	    {% endfor %}
+	<input type="submit" value="Vote" />
+	</form>
+
+{% else %}
+    <p>No menu items are available.</p>
+{% endif %}
